@@ -1,41 +1,46 @@
-const fs = require('fs')
-const readline = require('readline')
-const dayjs = require('dayjs')
-const now = dayjs()
+const fs = require("fs");
+const readline = require("readline");
+const dayjs = require("dayjs");
+const now = dayjs();
 
 const setting = {
-  title: "", fileName: "", category: "", tags: ""
-
+  title: "",
+  fileName: "",
+  category: "",
+  tags: "",
 };
 
 const r = readline.createInterface({
   input: process.stdin,
-  output: process.stdout
-})
+  output: process.stdout,
+});
 
 const stringToArrayStr = (string) => {
-  return "[".concat(string, "]")
-}
+  return "[".concat(string, "]");
+};
 
 const getTitle = (answerT) => {
   setting.title = answerT;
-  setting.fileName = `${now.format("YYYY-MM-DD")}-${setting.title.replace(/\s+/gm, '_')}`
-}
+  setting.fileName = `${now.format("YYYY-MM-DD")}-${setting.title.replace(
+    /\s+/gm,
+    "-"
+  )}`;
+};
 
 const getCategory = (answerC) => {
-  setting.category = stringToArrayStr(answerC)
-}
+  setting.category = stringToArrayStr(answerC);
+};
 
 const getTags = (answerTags) => {
-  setting.tags = stringToArrayStr(answerTags)
-}
+  setting.tags = stringToArrayStr(answerTags);
+};
 
 r.question("title: ", (answerT) => {
   getTitle(answerT);
   r.question("category: ", (answerC) => {
     getCategory(answerC);
     r.question("tags: ", (answerTags) => {
-      getTags(answerTags)
+      getTags(answerTags);
       const data =
         `---\n` +
         `title: ${setting.title}\n` +
@@ -43,13 +48,11 @@ r.question("title: ", (answerT) => {
         `categories: ${setting.category}\n` +
         `tags: ${setting.tags}\n` +
         `---\n`;
-      fs.writeFileSync(`${setting.fileName}.md`, data, 'utf8')
-      console.log("Write Complete")
-      r.pause()
-    })
-  })
-})
-
-
+      fs.writeFileSync(`${setting.fileName}.md`, data, "utf8");
+      console.log("Write Complete");
+      r.pause();
+    });
+  });
+});
 
 // fs.writeFile('')
